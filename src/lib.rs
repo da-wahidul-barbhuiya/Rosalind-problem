@@ -51,46 +51,43 @@ pub fn nucleotide_counts(dna:&str) -> Result<HashMap<char,usize>,char>{
 
 // now baby it's my style---be ready--
 //use std::collections::HashMap;
-use crate::HashMap;
-use std::collections::HashMap;
-pub mod DNA_count{
-    
-    pub fn count_me(seq:&String)->i32 {
-        let seq_byte=seq.as_bytes();
-        let mut countA:i32=1;
-        let countT:i32=0;
-        let countG:i32=0;
-        let countC:i32=0;
-        let mut temp:i32=0;
-        let mut v:Vec<i32>=Vec::new();
-        for(i,&item) in seq_byte.iter().enumerate(){
-            match item{
-                b'A' => {
-                    let tmp=countA;
-                    countA +=1;
-                    v.push(tmp);
-                    temp
-                    
-                },
-                //b'T' =>countT+1,
-                //b'G'=> countG+1,
-                //b'C'=> countC+1,
-                _=>panic!("It seems your code is not giving the output you want!"),
-    
-            };
-        }
-        //println!("{}",countA);
-        //countA=countA+1;
-        //println!("{}",countA);
-        //return countA
-        println!("{:?}",v);
-        return temp
-    }
+//use crate::HashMap;
 
-    pub fn nt_count_using_map(dna:&String)-> Result<HashMap<char,usize>,char>{
-        
+pub mod DNA_count{
+use std::collections::HashMap;
+pub fn count_me(seq:&String)->i32 {
+    let seq_byte=seq.as_bytes();
+    let mut countA:i32=1;
+    let countT:i32=0;
+    let countG:i32=0;
+    let countC:i32=0;
+    let mut temp:i32=0;
+    let mut v:Vec<i32>=Vec::new();
+    for(i,&item) in seq_byte.iter().enumerate(){
+        match item{
+            b'A' => {
+                let tmp=countA;
+                countA +=1;
+                v.push(tmp);
+                temp
+                
+            },
+            //b'T' =>countT+1,
+            //b'G'=> countG+1,
+            //b'C'=> countC+1,
+            _=>panic!("It seems your code is not giving the output you want!"),
+
+        };
     }
-    
+    //println!("{}",countA);
+    //countA=countA+1;
+    //println!("{}",countA);
+    //return countA
+    println!("{:?}",v);
+    return temp
+}
+
+
 
 }
 
