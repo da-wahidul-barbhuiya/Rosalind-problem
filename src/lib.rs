@@ -55,41 +55,135 @@ pub fn nucleotide_counts(dna:&str) -> Result<HashMap<char,usize>,char>{
 
 pub mod DNA_count{
 use std::collections::HashMap;
-pub fn count_me(seq:&String)->i32 {
+pub fn count_me(seq:&String)-> Result<HashMap<String,i32>,u8> {
     let seq_byte=seq.as_bytes();
-    let mut countA:i32=1;
-    let countT:i32=0;
-    let countG:i32=0;
-    let countC:i32=0;
+    let mut countA:i32=0;
+    let mut countT:i32=0;
+    let mut countG:i32=0;
+    let mut countC:i32=0;
     let mut temp:i32=0;
-    let mut v:Vec<i32>=Vec::new();
+    let mut map=HashMap::new();
     for(i,&item) in seq_byte.iter().enumerate(){
         match item{
             b'A' => {
-                let tmp=countA;
+                //let tmp=countA;
                 countA +=1;
-                v.push(tmp);
-                temp
-                
+                //v.push(tmp);
+                map.insert(String::from("A"),countA);
+
             },
-            //b'T' =>countT+1,
-            //b'G'=> countG+1,
-            //b'C'=> countC+1,
-            _=>panic!("It seems your code is not giving the output you want!"),
+            b'T' =>{
+                countT+=1;
+                map.insert(String::from("T"),countT);
+
+            },
+            b'G'=> {
+                countG +=1;
+                map.insert(String::from("G"),countG);
+
+            },
+            b'C'=> {
+                countC +=1;
+                map.insert(String::from("C"),countC);
+
+            },
+            _=>{return Err(item)
+            //panic!("It seems your code is not giving the output you want!"),
+            }
 
         };
     }
-    //println!("{}",countA);
-    //countA=countA+1;
-    //println!("{}",countA);
-    //return countA
-    println!("{:?}",v);
-    return temp
+    println!("Nucleotide count:- {:?}",map);
+    Ok(map) 
+    
 }
 
-
-
 }
+/*
+
+//transcribing DNA into RNA
 
 
+pub mod DNA_to_RNA {
+    pub struct DNA(String);
+
+    impl DNA {
+        pub fn new(input:&str) -> Result<DNA, char>{
+            input.chars().map(|c| match c{
+                'A' | 'C'| 'G' | 'T' =>Ok(c),
+                _=> Err(c),
+            })
+            .collect::<Result<String,char>>()
+            .and_then(|base| Ok(DNA(bases)))
+        }
+        pub fn to_rna(&self) -> RNA{
+            RNA::new(
+                self.0.chars().map(|c| match c{
+                    'A' =>'U',
+                    'C'=>'G',
+                    'G'=>'C',
+                    'T'=>'A',
+                    _=>unreachable!(),
+                })
+                .collect::<String>().as_str(),
+            ).ok()
+            .unwrap()
+            
+        }
+    }
+
+    pub struct RNA(String);
+
+    impl RNA{
+        pub fn new(input:&str) -> Result<RNA,char>{
+            input.chars().map(|c| match c{
+                'A' | 'C' |'G' |'U' =>Ok(c),
+                _=>Err(c),
+            }).collect::<Result<String,char>>().and_then(|base| Ok(RNA(base)))
+        }
+    }
  
+
+}
+
+*/
+pub mod DNA_to_RNA{
+        /*
+        pub fn check_point(&self,input:&str) -> Result<Converter,char>{
+            let transribe=Converter{DNA:String::from("Hello world"),RNA:String::from("Converting...")};
+            let input_byte=input.as_bytes();
+            let v:Vec<String>=Vec::new();
+            for (i,&item) in input_byte.iter().enumerate(){
+                match item{
+                    b'A' | b'C' | b'G' | b'T' =>Ok(item),
+                    _=> Err(item),
+                };
+            }
+            Ok(transribe)
+        }
+         */
+        
+        pub fn transcription(input:&str) ->Result<String,u8>{
+            let rna_byte=input.as_bytes();
+            let mut v:Vec<String>=Vec::new();
+            for (i,&item) in rna_byte.iter().enumerate(){
+                match item{
+                    b'A' => v.push(String::from('U')),
+                    b'C'=>v.push(String::from('G')),
+                    b'G'=>v.push(String::from('C')),
+                    b'T'=>v.push(String::from('A')),
+                    _=>{//unreachable!(),
+                        return Err(item);
+                }
+            }
+        }
+        //Now storing all nt char individually in a vector and then changing vector to a string
+        let seq= v.clone().into_iter().collect::<String>();//into_iter() allows us to convert a collection to into an iterator
+                                                           //ownership of the colllection is transferred  into the iterator and ]
+                                                           // original collection is inaccessable so that's why you have to clone first 
+                                                           // .collect() meethod converts iterator to a collection()
+        println!("DNA after transcription:- {:?}",seq);
+        Ok(seq)
+    }
+}
+
